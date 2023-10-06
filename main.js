@@ -89,6 +89,13 @@ function refresh() {
     }
 }
 
+function recreatePoints() {
+    stroke(0, 255, 200, opacity);
+    for (let i = 0; i < nbPoints; i++) {
+        points.push(createVector(random(mainWidth), random(mainHeight)));
+    }
+}
+
 ///////////////////////////
 //    Lien avec HTML     //
 ///////////////////////////
@@ -100,9 +107,7 @@ function inputNbParticle(event) {
         nbPoints = document.getElementById("nbPoints").value; // get new amount of points
 
         // create points at random positions
-        for (let i = 0; i < nbPoints; i++) {
-            points.push(createVector(random(mainWidth), random(mainHeight)));
-        }
+        recreatePoints();
 
         refresh();
     }
@@ -111,6 +116,34 @@ function inputNbParticle(event) {
 function inputSpeed(event) {
 
     if (event.keyCode == 13) {
-
+        speed = document.getElementById("speed").value;
+        refresh();
     }
+}
+
+function inputRotation(event){
+    if (event.keyCode == 13) {
+        rotationScale = document.getElementById("rotationScale").value;
+        refresh();
+    }
+}
+
+function clickOnRefresh() {
+    speed = document.getElementById("speed").value;
+    rotationScale = document.getElementById("rotationScale").value;
+    points = []; // destroy all points
+    nbPoints = document.getElementById("nbPoints").value;
+    recreatePoints();
+    refresh();
+}
+
+function colorToHex(hex) {
+    // Enlever le premier caractère (#)
+    var bigint = parseInt(hex, 16);
+    var r = (bigint >> 16) & 255;
+    var g = (bigint >> 8) & 255;
+    var b = bigint & 255;
+
+    return r + "," + g + "," + b;
+
 }

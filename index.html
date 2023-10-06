@@ -24,7 +24,7 @@
             <div style="width: 20%;">
                 <div>
                     <h3>Colors :</h3>
-
+                    <input type="color" id="html5colorpicker" value="#ff0000" onchange="stroke(colorToHex(value),opacity)"  style="width: 85%;"html5colorpicker>
                     <div class="liste">
                         <p onclick="stroke(0,255,200,opacity); refresh()" class="bouton" id="turquoise">turquoise</p>
                         <p onclick="stroke(255,0,0,opacity); refresh()" class="bouton" id="red">red</p>
@@ -43,16 +43,24 @@
                     </div>
                 </div>
                 
-                <div>
+                <div class="changerValues">
                     <h3>Values :</h3>
 
                     <div class="liste" title="usual values : 500 - 3000&#013(performance reasons)">
                         <p class="valueName">particle amount : </p>
                         <input id="nbPoints" class="number" value="2000" onkeydown="inputNbParticle(event)"><br>
-
-                        <p class="valueName"> particle speed : </p>
-                        <input id="nbPoints" class="number" value="1" onkeydown="inputSpeed(event)" style="max-width: 10%;"><br>
                     </div>
+                    <div class="liste" >
+                        <p class="valueName"> particle speed : </p>
+                        <input id="speed" class="number" value="1" onkeydown="inputSpeed(event)" style="max-width: 10%;"><br>
+                    </div>
+                    <div class="liste">
+                        <p class="valueName"> rotation scale </p>
+                        <input id="rotationScale" class="number" value="40" onkeydown="inputRotation(event)" style="max-width: 10%;"><br>
+                    </div>
+                </div>
+                <div class="button">
+                    <p onclick="clickOnRefresh()" class="bouton">refresh</p>
                 </div>
             </div>
         </div>
