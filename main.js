@@ -11,17 +11,22 @@ let borderRule = "randomTeleport"; // determines what happens when a point goes 
 
 let mainWidth;
 let mainHeight;
-
+let currentColor;
 
 function setup() {
     // get size of div
-    mainWidth = document.getElementById("main").clientWidth;
-    mainHeight = document.getElementById("main").clientHeight + 100;
-
+    if (window.innerWidth > 1920) {
+        mainWidth = document.getElementById("main").clientWidth;
+        mainHeight = window.innerHeight - 300; // test
+    } else {
+        mainWidth = document.getElementById("main").clientWidth;
+        mainHeight = document.getElementById("setterCanvaHeight").clientHeight + 25; // + 25 is a manual offset to make canvas slightly bigger than the sidebar
+    }
     // initialize canvas
     createCanvas(mainWidth, mainHeight); // set canva size
     background(0); // set background color in A
-    stroke(0, 255, 200, opacity); // set color in RGBA
+    currentColor = color(0,255,200,opacity)
+    stroke(currentColor); // set color in RGBA
     strokeWeight(size); // set size of points
 
     // create all points
@@ -67,18 +72,38 @@ function draw() {
 }
 
 function windowResized() {
-    // get new div size
-    mainWidth = document.getElementById("main").clientWidth;
-    mainHeight = document.getElementById("main").clientHeight - 4;
+    if (mainWidth != document.getElementById("main").clientWidth) { // check that it is not only the height that changed (we don't care in this case)
+        // get new div size
+        if (window.innerWidth > 1920) {
+            mainWidth = document.getElementById("main").clientWidth;
+            mainHeight = innerHeight - 250; // make the canva take most screen space
+        } else {
+            mainWidth = document.getElementById("main").clientWidth;
+            mainHeight = document.getElementById("setterCanvaHeight").clientHeight + 25; // + 25 is a manual offset to make canvas slightly bigger than the sidebar
+        }
+        
+        // resize canvas to correct size
+        resizeCanvas(mainWidth, mainHeight);
 
-    // resize canvas to correct size
-    resizeCanvas(mainWidth, mainHeight);
-
-    refresh();
+        reset();
+    }
 }
 
 function refresh() {
     //reset values
+    background(0);
+    totalOffset = 0;
+    stroke(currentColor);
+    // replace all points to random positions
+    for (vector of points) {
+        vector.x = random(mainWidth);
+        vector.y = random(mainHeight);
+    }
+}
+
+function reset() {
+    //reset values
+    stroke(currentColor);
     background(0);
     totalOffset = 0;
 
@@ -113,6 +138,23 @@ function inputNbParticle(event) {
     }
 }
 
+function inputOpacity(event) {
+    if (event.keyCode === 13) { // check if enter is pressed
+        console.log("inputOpacity");
+        opacity = Math.floor(document.getElementById("opacity").value); // change opacity (USE MATH.FLOOR BECAUSE STROKE DOESN'T ACCEPT FLOATS)
+        currentColor.setAlpha(opacity); // set opacity in color
+        stroke(currentColor); // set color in RGBA
+        reset();
+    }
+}
+
+function inputFade(event) {
+    if (event.keyCode === 13) { // check if enter is pressed
+        fadeSpeed = Math.floor(document.getElementById("fadeSpeed").value); // change fade speed (USE MATH.FLOOR BECAUSE STROKE DOESN'T ACCEPT FLOATS)
+        reset();
+    }
+}
+
 function inputSpeed(event) {
 
     if (event.keyCode == 13) {
@@ -136,6 +178,8 @@ function clickOnRefresh() {
     recreatePoints();
     refresh();
 }
+
+
 
 function colorToHex(hex) {
     //Convertir une couleur hexadécimale en RGB
