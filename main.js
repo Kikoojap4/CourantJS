@@ -138,12 +138,14 @@ function clickOnRefresh() {
 }
 
 function colorToHex(hex) {
-    // Enlever le premier caractère (#)
-    var bigint = parseInt(hex, 16);
-    var r = (bigint >> 16) & 255;
-    var g = (bigint >> 8) & 255;
-    var b = bigint & 255;
+    //Convertir une couleur hexadécimale en RGB
+    // Couper en trois parties 
 
-    return r + "," + g + "," + b;
-
+    hex = hex.substring(1);
+    //Couper en 3 parties avec comme 
+    let r = parseInt(hex.substring(0, 2), 16);
+    let g = parseInt(hex.substring(2, 4), 16);
+    let b = parseInt(hex.substring(4, 6), 16);
+    console.log(r + "," + g + "," + b);
+    return (r + "," + g + "," + b);
 }
